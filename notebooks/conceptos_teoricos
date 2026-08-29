@@ -1,0 +1,25 @@
+## 3. Fundamentos teóricos
+
+### 3.1 ¿Qué es una señal?
+
+Una señal es una representación de la variación de una magnitud física
+respecto a otra variable, normalmente el tiempo.
+
+En el caso del sonido, las variaciones de presión del aire producidas por
+la voz son convertidas por un micrófono en una señal eléctrica.
+
+Matemáticamente, una señal continua puede representarse como:
+
+$$
+x(t)
+$$
+
+donde:
+
+- $x$ representa la amplitud.
+- $t$ representa el tiempo.
+
+### Aplicación en este proyecto
+
+En este sistema, el micrófono MAX9814 convierte la voz en una señal
+analógica que posteriormente es digitalizada mediante el ADC del ESP32-S3.
