@@ -20,3 +20,58 @@ donde:
 #### Aplicación en este proyecto
 
 En este sistema, el micrófono **MAX9814** convierte las variaciones acústicas producidas por la voz en una señal analógica. Posteriormente, el **ADC del ESP32-S3** digitaliza esta señal para que pueda ser procesada por el microcontrolador.
+
+
+## 3. Fundamentos teóricos
+
+### 3.1 ¿Qué es una señal?
+
+Una **señal** es una representación de la variación de una magnitud física con respecto a otra variable, generalmente el tiempo.
+
+En el caso del sonido, las variaciones de presión del aire producidas por la voz son convertidas por un micrófono en una señal eléctrica.
+
+Matemáticamente, una señal continua puede representarse como:
+
+$$
+x(t)
+$$
+
+donde:
+
+- $x$ representa la **amplitud** de la señal.
+- $t$ representa el **tiempo**.
+
+#### Aplicación en este proyecto
+
+En este sistema, el micrófono **MAX9814** convierte las variaciones acústicas producidas por la voz en una señal analógica. Posteriormente, el **ADC del ESP32-S3** digitaliza esta señal para que pueda ser procesada por el microcontrolador.
+
+
+
+## 3.3 Muestreo de una señal
+
+Para que una señal analógica pueda ser procesada por un microcontrolador,
+debe convertirse en una secuencia de muestras digitales.
+
+Una señal muestreada puede expresarse como:
+
+$$
+x[n] = x(nT_s)
+$$
+
+donde $T_s$ representa el periodo de muestreo.
+
+La frecuencia de muestreo se define como:
+
+$$
+f_s = \frac{1}{T_s}
+$$
+
+### Aplicación en este proyecto
+
+Los audios se procesan utilizando una frecuencia de muestreo de:
+
+$$
+f_s = 16\,000\ Hz
+$$
+
+Por tanto, cada segundo de audio contiene 16.000 muestras.
