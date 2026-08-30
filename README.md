@@ -730,3 +730,76 @@ Vector de entrada al modelo
 
 > **En resumen:** la extracción de características transforma el espectrograma en un vector compacto de 512 valores que conserva información relevante sobre cómo se distribuye la energía de la señal en el tiempo y en la frecuencia. Este vector es posteriormente utilizado como entrada del modelo de clasificación.
 
+
+
+### Estandarización de características 
+
+Después de extraer las **512 características** del espectrograma, el siguiente paso consiste en estandarizarlas antes de utilizarlas como entrada del modelo de clasificación.
+
+Las características pueden presentar escalas numéricas diferentes. Por ejemplo, algunas pueden tomar valores cercanos a:
+
+```text
+-20, -15, -10
+```
+
+mientras que otras pueden encontrarse alrededor de:
+
+```text
+-80, -60, -40
+```
+
+Si estas características se entregan directamente al modelo, aquellas con valores numéricos de mayor magnitud pueden influir más en el proceso de aprendizaje únicamente por su escala. Para evitar este problema se estandariza cada característica para que tenga aproximadamente:
+
+```text
+Media = 0
+Desviación estándar = 1
+```
+
+La transformación se realiza mediante:
+
+$$
+z_i = \frac{x_i - \mu_i}{\sigma_i}
+$$
+
+donde:
+
+- $x_i$ es el valor original de la característica.
+- $\mu_i$ es la media de esa característica calculada con los datos de entrenamiento.
+- $\sigma_i$ es su desviación estándar.
+- $z_i$ es el valor estandarizado.
+
+
+La estandarización permite que las características se encuentren en escalas comparables, facilitando el proceso de entrenamiento de la red neuronal.
+
+
+#### Flujo completo hasta este punto
+
+```text
+Audio
+  ↓
+Muestreo
+  ↓
+Segmentación
+  ↓
+Ventana de Hann
+  ↓
+Zero padding
+  ↓
+FFT
+  ↓
+Potencia espectral
+  ↓
+Espectrograma
+  ↓
+Extracción de características
+  ↓
+512 características
+  ↓
+StandardScaler
+  ↓
+512 características estandarizadas
+  ↓
+MLP
+```
+
+> **En resumen:** StandardScaler transforma las 512 características para que tengan escalas comparables, utilizando la media y desviación.
