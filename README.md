@@ -569,4 +569,164 @@ En un espectrograma:
 - El **eje Y** representa la frecuencia.
 - El **color o intensidad** representa la energía o potencia asociada a cada frecuencia en cada instante.
 
+### Extracción de características
+
+La **extracción de características** consiste en transformar la información contenida en el espectrograma en un conjunto más compacto de valores numéricos que pueda ser utilizado por el modelo de clasificación.
+
+El espectrograma contiene información de **tiempo, frecuencia y energía**, pero utilizar todos sus valores directamente aumentaría el costo computacional. Por esta razón, se resume la información relevante en un vector de características.
+
+El flujo general es:
+
+```text
+Audio
+  ↓
+Ventanas de 25 ms
+  ↓
+Ventana de Hann
+  ↓
+FFT
+  ↓
+Potencia espectral
+  ↓
+Espectrograma
+  ↓
+Extracción de características
+  ↓
+Vector numérico
+  ↓
+Modelo de clasificación
+```
+
+En este proyecto se analiza principalmente el rango de frecuencia comprendido entre **80 Hz y 3000 Hz**. Posteriormente, el espectrograma se divide en:
+
+```text
+16 regiones temporales
+        ×
+32 bandas de frecuencia
+        =
+512 características
+```
+
+Es decir:
+
+$$
+16 \times 32 = 512
+$$
+
+Cada característica representa la energía promedio contenida en una región determinada del espectrograma.
+
+Conceptualmente:
+
+```text
+                     TIEMPO
+            ┌────┬────┬────┬────┐
+            │    │    │    │    │
+            ├────┼────┼────┼────┤
+FRECUENCIA  │    │    │    │    │
+            ├────┼────┼────┼────┤
+            │    │    │    │    │
+            └────┴────┴────┴────┘
+
+Cada celda representa una región
+de tiempo y frecuencia.
+```
+
+Para cada región se calcula la potencia promedio:
+
+$$
+E_{r,b}
+=
+\frac{1}{N_{r,b}}
+\sum_{(m,k)\in(r,b)}
+|X_m[k]|^2
+$$
+
+donde:
+
+- $r$ representa una región temporal.
+- $b$ representa una banda de frecuencia.
+- $m$ representa una ventana temporal.
+- $k$ representa un bin de frecuencia.
+- $|X_m[k]|^2$ corresponde a la potencia espectral.
+- $N_{r,b}$ representa el número de valores contenidos en esa región.
+
+Después, esta energía se transforma a una escala logarítmica:
+
+$$
+F_{r,b}
+=
+10\log_{10}
+\left(
+E_{r,b}+\varepsilon
+\right)
+$$
+
+donde $\varepsilon$ es un valor pequeño utilizado para evitar calcular el logaritmo de cero.
+
+Cada combinación entre una región temporal y una banda de frecuencia produce una característica:
+
+```text
+Región temporal 1
+ ├── Banda 1  → característica 1
+ ├── Banda 2  → característica 2
+ ├── Banda 3  → característica 3
+ ...
+ └── Banda 32 → característica 32
+
+Región temporal 2
+ ├── Banda 1  → característica 33
+ ...
+```
+
+Este proceso continúa hasta obtener:
+
+$$
+512\ características
+$$
+
+que se organizan en un vector:
+
+$$
+\mathbf{x}
+=
+[x_1,x_2,x_3,\ldots,x_{512}]
+$$
+
+Este vector constituye la entrada del modelo de clasificación.
+
+---
+
+#### ¿Por qué realizar extracción de características?
+
+El objetivo es conservar los patrones más importantes de la señal sin utilizar todos los valores individuales del espectrograma. En una palabra pronunciada, la energía no se distribuye de la misma forma durante toda la pronunciación. Algunas frecuencias pueden aparecer al inicio, otras en la parte central y otras al final.
+
+Por tanto, las características buscan conservar:
+
+- cómo se distribuye la energía en frecuencia;
+- cómo cambia esa energía en el tiempo;
+- los patrones característicos asociados a cada palabra.
+
+De esta manera, dos palabras pueden diferenciarse no solo por las frecuencias que contienen, sino también por **cuándo aparecen esas frecuencias y con qué intensidad**.
+
+El proceso puede resumirse como:
+
+```text
+Espectrograma
+      ↓
+Selección de 80–3000 Hz
+      ↓
+16 regiones temporales
+      ↓
+32 bandas de frecuencia
+      ↓
+Energía promedio por región
+      ↓
+Transformación logarítmica
+      ↓
+512 características
+      ↓
+Vector de entrada al modelo
+```
+
+> **En resumen:** la extracción de características transforma el espectrograma en un vector compacto de 512 valores que conserva información relevante sobre cómo se distribuye la energía de la señal en el tiempo y en la frecuencia. Este vector es posteriormente utilizado como entrada del modelo de clasificación.
 
