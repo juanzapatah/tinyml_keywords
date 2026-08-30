@@ -168,7 +168,5 @@ Una señal se considera aproximadamente **estacionaria** cuando sus propiedades 
 La voz humana es una señal **no estacionaria**, debido a que su contenido frecuencial cambia continuamente durante la pronunciación.
 Cada segmento presenta diferentes combinaciones de vocales, consonantes y transiciones acústicas. Por esta razón, para reconocer una palabra no es suficiente conocer únicamente qué frecuencias aparecen durante toda la grabación.
 
-También resulta importante conocer:
-
- **cómo cambian las frecuencias a lo largo del tiempo.**
+También resulta importante conocer: **cómo cambian las frecuencias a lo largo del tiempo.**
 
