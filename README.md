@@ -48,3 +48,19 @@ x[n]
 $$
 donde $n$ representa el índice de cada muestra.
 
+El proceso puede representarse como:
+
+```text
+Voz
+ ↓
+Variaciones de presión acústica
+ ↓
+Micrófono
+ ↓
+Señal eléctrica analógica
+ ↓
+ADC
+ ↓
+Secuencia digital de muestras
+```
+
