@@ -521,8 +521,52 @@ Por esta razón se dice que el zero padding produce una **representación más d
 
 #### ¿El zero padding aumenta la resolución frecuencial?
 
-No necesariamente. Aunque al pasar de 400 a 512 puntos el espaciamiento entre los bins disminuye de: $$ 40\ Hz $$ a: $$31.25\ Hz $$
+No necesariamente. Aunque al pasar de 400 a 512 puntos el espaciamiento entre los bins disminuye de:  40 Hz a: 31.25 Hz.
 
 la señal original sigue conteniendo únicamente **25 ms de información real**. Esto permite utilizar una FFT eficiente y obtener valores del espectro en frecuencias más cercanas entre sí. Sin embargo, no agrega nueva información a la señal, no mejora por sí solo la resolución en frecuencia rea. 
 
+### Potencial espectral 
+
+La **potencia espectral** indica cómo se distribuye la intensidad de una señal entre sus diferentes componentes de frecuencia.
+
+Después de calcular la FFT de un segmento obtenemos valores complejos:
+
+$$
+X[k]
+$$
+
+A partir de ellos se calcula primero la magnitud:
+
+$$
+|X[k]|
+$$
+
+y posteriormente la potencia espectral:
+
+$$
+P[k] = |X[k]|^2
+$$
+
+La potencia espectral permite responder: **¿En qué frecuencias se concentra principalmente la señal?**
+
+Los valores de potencia pueden presentar diferencias muy grandes. Para facilitar su representación y comparación, normalmente se expresan en una escala logarítmica mediante decibelios:
+
+$$
+P_{dB} = 10\log_{10}(P)
+$$
+
+Por ejemplo, si una señal contiene una componente dominante de **500 Hz**, la potencia espectral tendrá un valor alto alrededor de esa frecuencia y valores menores en las demás. 
+
 ### Espectrograma
+
+Un **espectrograma** es una representación que muestra cómo cambia el contenido en frecuencia de una señal a lo largo del tiempo.
+
+A diferencia de una FFT aplicada a toda la señal, que permite identificar qué frecuencias están presentes de manera global, el espectrograma conserva también la información temporal. Por esta razón es especialmente útil para analizar señales de voz, cuyo contenido frecuencial cambia continuamente.
+
+En un espectrograma:
+
+- El **eje X** representa el tiempo.
+- El **eje Y** representa la frecuencia.
+- El **color o intensidad** representa la energía o potencia asociada a cada frecuencia en cada instante.
+
+
