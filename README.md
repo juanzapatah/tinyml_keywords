@@ -32,4 +32,4 @@ donde:
 
 Cuando una persona pronuncia una palabra como **"murciélago"** o **"plátano"**, la presión acústica cambia continuamente, generando una forma de onda particular.
 
-En este sistema, el micrófono convierte las variaciones acústicas producidas por la voz en una señal eléctrica. El módulo **MAX9814** amplifica y acondiciona esta señal antes de que sea adquirida por el convertidor analógico-digital del **ESP32-S3**.
+En este sistema, el micrófono convierte las variaciones acústicas producidas por la voz en una señal eléctrica, la cual será adquirida por el convertidor analógico-digital del **ESP32-S3**.
