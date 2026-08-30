@@ -138,3 +138,25 @@ En este proyecto se utiliza principalmente el intervalo:
 $$
 80\ Hz \leq f \leq 3000\ Hz
 $$
+
+#### Duración del audio
+
+Cada captura tiene una duración de:
+
+$$
+T = 1.2\ s
+$$
+
+El número total de muestras se obtiene mediante:
+
+$$
+N = f_sT
+$$
+
+Por tanto:
+
+$$
+N = 16000 \times 1.2 = 19200
+$$
+
+Cada registro tiene **19.200 muestras de audio**.
