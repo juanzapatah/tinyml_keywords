@@ -280,5 +280,10 @@ contiene información sobre su fase.
 
 En términos simples: **La DFT lleva la idea de la Transformada de Fourier al procesamiento de señales digitales formadas por un número finito de muestras.**
 
+### Transformada Rápida de Fourier (FFT)
+
+La **Transformada Rápida de Fourier (FFT)** no es una transformada diferente de la DFT. La FFT es un conjunto de algoritmos que permite **calcular la DFT de manera mucho más eficiente**.  FFT es especialmente importante cuando se procesan grandes cantidades de datos o cuando los cálculos deben realizarse en dispositivos con recursos limitados, como un microcontrolador.
+
+
 
 
