@@ -234,6 +234,7 @@ X[k]
 x[n]e^{-j2\pi kn/N}
 $$
 
+
 donde:
 
 - $n$ representa el índice de la muestra en el dominio temporal.
