@@ -160,3 +160,10 @@ N = 16000 \times 1.2 = 19200
 $$
 
 Cada registro tiene **19.200 muestras de audio**.
+
+### Señales estacionarias y no estacionarias
+
+Una señal se considera aproximadamente **estacionaria** cuando sus propiedades estadísticas o espectrales permanecen constantes durante el intervalo analizado.
+
+La voz humana es una señal **no estacionaria**, debido a que su contenido frecuencial cambia continuamente durante la pronunciación.
+
