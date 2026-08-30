@@ -109,3 +109,32 @@ f_s = 16000\ Hz
 $$
 
 lo que significa que se adquieren **16.000 muestras por segundo**.
+
+
+#### Teorema de Nyquist
+
+Para representar adecuadamente una señal, la frecuencia de muestreo debe ser al menos el doble de la frecuencia máxima que se desea analizar:
+
+$$
+f_s \geq 2f_{max}
+$$
+
+La frecuencia máxima que puede representarse sin ambigüedad se denomina **frecuencia de Nyquist**:
+
+$$
+f_N = \frac{f_s}{2}
+$$
+
+Para una frecuencia de muestreo de 16 kHz:
+
+$$
+f_N = \frac{16000}{2} = 8000\ Hz
+$$
+
+Por tanto, pueden representarse teóricamente componentes frecuenciales hasta aproximadamente **8 kHz**.
+
+En este proyecto se utiliza principalmente el intervalo:
+
+$$
+80\ Hz \leq f \leq 3000\ Hz
+$$
