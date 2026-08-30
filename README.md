@@ -411,13 +411,9 @@ Por ejemplo, aunque una señal contenga únicamente una frecuencia de 500 Hz, su
 ![Fuga espectral](images/Fuga_espectral_ventana_de_Hann.png)
 
 
----
-
 ### ¿Cómo ayuda la ventana de Hann?
 
-Para reducir los efectos producidos por los cortes se utiliza una **función de ventana**.
-
-En este proyecto se emplea la **ventana de Hann**, definida como:
+Para reducir los efectos producidos por los cortes se utiliza una **función de ventana**. En este proyecto se emplea la **ventana de Hann**, definida como:
 
 $$
 w[n] = 0.5 - 0.5\cos\left(\frac{2\pi n}{N-1}\right)
@@ -429,70 +425,9 @@ $$
 x_{Hann}[n] = x[n]w[n]
 $$
 
-La ventana de Hann tiene valores próximos a cero en los extremos y cercanos a uno en la zona central.
+La ventana de Hann tiene valores próximos a cero en los extremos y cercanos a uno en la zona central. Por tanto, transforma un segmento con extremos abruptos en otro cuyos extremos disminuyen progresivamente:
 
-Por tanto, transforma un segmento con extremos abruptos en otro cuyos extremos disminuyen progresivamente:
-
-```text
-Fragmento original
-
-| /\/\/\/\/\/\/\/\/\/\/\ |
-↑                        ↑
-corte                  corte
-
-
-Ventana de Hann
-
-      ___________
-    /             \
-___/               \___
-
-
-Fragmento × Hann
-
-    ▁▂▄▆/\/\/\/\▆▄▂▁
-
-
-
-
-
-
-
-Cortar una señal abruptamente puede introducir discontinuidades en los extremos de cada segmento. Estas discontinuidades producen un fenómeno denominado **fuga espectral**, en el que la energía correspondiente a determinadas frecuencias se distribuye hacia frecuencias vecinas.
-
-Para reducir este efecto se utiliza una función de ventana.
-
-En este proyecto se utiliza la **ventana de Hann**:
-
-$$
-w[n]
-=
-0.5
--
-0.5
-\cos
-\left(
-\frac{2\pi n}{N-1}
-\right)
-$$
-
-La señal ventaneada se obtiene mediante:
-
-$$
-x_w[n]=x[n]w[n]
-$$
-
-Conceptualmente:
-
-```text
-Segmento de audio
-       ↓
-Ventana de Hann
-       ↓
-Extremos suavizados
-       ↓
-FFT
-```
+![Fuga espectral](images/Fuga_espectral_ventana_de_Hann.png)
 
 #### Zero padding
 
