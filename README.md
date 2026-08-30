@@ -429,5 +429,26 @@ La ventana de Hann tiene valores próximos a cero en los extremos y cercanos a u
 
 ![Fuga espectral](images/ventana_hann.png)
 
-#### Zero padding
+#### Zero padding y relación con FFT
+
+El **zero padding** consiste en agregar ceros al final de una señal antes de calcular la FFT. Esta operación no modifica la información original de la señal, sino que permite completar el número de puntos requerido para realizar la transformada.
+
+En este proyecto, cada fragmento de audio tiene una duración de **25 ms** y se muestrea a **16 kHz**, por lo que contiene:
+
+$$
+N = 16000 \times 0.025 = 400
+$$
+
+muestras.
+
+Para calcular una FFT de **512 puntos**, se agregan:
+
+$$
+512 - 400 = 112
+$$
+
+ceros al final del fragmento.
+
+```text
+400 muestras reales + 112 ceros = 512 puntos
 
