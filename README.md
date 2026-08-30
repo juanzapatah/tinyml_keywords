@@ -189,12 +189,7 @@ Dominio de la frecuencia
 
 Para una señal continua:
 
-$$
-X(f)
-=
-\int_{-\infty}^{\infty}
-x(t)e^{-j2\pi ft}\,dt
-$$
+$$ X(f) = \int_{-\infty}^{\infty} x(t)e^{-j2\pi ft}\,dt $$
 
 donde:
 
@@ -203,8 +198,71 @@ donde:
 - $f$ representa la frecuencia.
 - $j$ representa la unidad imaginaria.
 
-La Transformada de Fourier permite responder una pregunta fundamental:
+La Transformada de Fourier permite responder una pregunta fundamental:  **¿Qué frecuencias están presentes en una señal?**
 
-> **¿Qué frecuencias están presentes en una señal?**
+### 3.6 Discrete Fourier Transform (DFT) y Fast Fourier Transfrom (FFT)
 
-En una señal de voz, diferentes sonidos producen distribuciones particulares de energía en el dominio frecuencial.
+Los computadores y microcontroladores trabajan con señales digitales formadas por un número finito de muestras. Por esta razón se utiliza la **Transformada Discreta de Fourier (DFT)**.
+
+Para una señal de $N$ muestras:
+
+$$
+X[k]
+=
+\sum_{n=0}^{N-1}
+x[n]e^{-j2\pi kn/N}
+$$
+
+donde:
+
+- $n$ corresponde al índice temporal.
+- $k$ corresponde al índice frecuencial.
+- $N$ corresponde al número de muestras.
+- $X[k]$ representa cada componente del espectro.
+
+#### Transformada Rápida de Fourier
+
+La **FFT (Fast Fourier Transform)** no es una transformada diferente. La FFT es un algoritmo eficiente para calcular la DFT utilizando un menor número de operaciones. Una implementación directa de la DFT presenta aproximadamente una complejidad:
+
+$$
+O(N^2)
+$$
+
+mientras que la FFT puede reducirla aproximadamente a:
+
+$$
+O(N\log_2N)
+$$
+
+Esta reducción resulta especialmente importante en sistemas embebidos y aplicaciones TinyML.
+
+#### Resolución frecuencial
+
+La separación entre los bins del espectro se calcula mediante:
+
+$$
+\Delta f = \frac{f_s}{N_{FFT}}
+$$
+
+En este proyecto:
+
+$$
+f_s = 16000\ Hz
+$$
+
+y:
+
+$$
+N_{FFT}=512
+$$
+
+Por tanto:
+
+$$
+\Delta f =
+\frac{16000}{512}
+=
+31.25\ Hz
+$$
+
+Cada bin de la FFT representa aproximadamente **31.25 Hz**.
