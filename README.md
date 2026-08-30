@@ -71,3 +71,20 @@ $$
 $$
 
 Antes de realizar el análisis espectral, se elimina el valor medio de la señal para reducir su componente de continua.
+
+
+###  Muestreo
+
+El **muestreo** consiste en medir el valor de una señal analógica en instantes regulares de tiempo.
+
+Una señal continua:
+
+$$
+x(t)
+$$
+
+puede convertirse en una secuencia discreta mediante:
+
+$$
+x[n] = x(nT_s)
+$$
