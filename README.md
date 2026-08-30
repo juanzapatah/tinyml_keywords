@@ -802,4 +802,4 @@ StandardScaler
 MLP
 ```
 
-> **En resumen:** StandardScaler transforma las 512 características para que tengan escalas comparables, utilizando la media y desviación.
+> **En resumen:** La estandarización transforma las 512 características para que tengan escalas comparables, utilizando la media y desviación.
