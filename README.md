@@ -769,6 +769,392 @@ donde:
 - $z_i$ es el valor estandarizado.
 
 
+
+
 La estandarización permite que las características se encuentren en escalas comparables, facilitando el proceso de entrenamiento de la red neuronal.
 
 > **En resumen:** La estandarización transforma las 512 características para que tengan escalas comparables, utilizando la media y desviación.
+
+
+
+## Red neuronal artificial
+
+Una **red neuronal artificial (ARN)** es un modelo matemático formado por unidades llamadas **neuronas artificiales**, organizadas en capas y conectadas mediante pesos. Su objetivo es aprender la relación entre unos datos de entrada y una salida esperada. En este proyecto, la red neuronal recibe como entrada las **512 características estandarizadas** extraídas del audio y genera como salida una de las clases disponibles.
+
+```text
+512 características
+        ↓
+Red neuronal
+        ↓
+Predicción
+        ↓
+fondo / murciélago / plátano
+```
+
+La red no recibe directamente la palabra hablada. Recibe una representación numérica que resume cómo se distribuye la energía de la señal en el tiempo y en la frecuencia.
+
+---
+
+### Neurona artificial
+
+Una neurona artificial recibe diferentes valores de entrada:
+
+$$
+x_1,x_2,x_3,\ldots,x_n
+$$
+
+Cada entrada se multiplica por un peso:
+
+$$
+w_1,w_2,w_3,\ldots,w_n
+$$
+
+Posteriormente, los resultados se suman junto con un término denominado **sesgo** o *bias*:
+
+$$
+z =
+w_1x_1+w_2x_2+\cdots+w_nx_n+b
+$$
+
+De forma compacta:
+
+$$
+z=\sum_{i=1}^{n}w_ix_i+b
+$$
+
+donde:
+
+- $x_i$ representa una característica de entrada.
+- $w_i$ representa el peso asociado a esa característica.
+- $b$ representa el sesgo de la neurona.
+- $z$ corresponde a la combinación lineal calculada por la neurona.
+
+Conceptualmente:
+
+```text
+x1 ── w1 ──┐
+x2 ── w2 ──┤
+x3 ── w3 ──┼──► suma + bias ──► activación ──► salida
+...        │
+xn ── wn ──┘
+```
+
+Los **pesos** representan la importancia que la red asigna a cada entrada y son precisamente algunos de los parámetros que se modifican durante el entrenamiento.
+
+---
+
+### Función de activación
+
+Después de calcular $z$, la neurona aplica una **función de activación**.
+
+En una red MLP es frecuente utilizar la función **ReLU**:
+
+$$
+\operatorname{ReLU}(z)=\max(0,z)
+$$
+
+Esto significa:
+
+$$
+\operatorname{ReLU}(z)=
+\begin{cases}
+0, & z<0 \\
+z, & z\geq0
+\end{cases}
+$$
+
+Por ejemplo:
+
+```text
+z = -3  → ReLU → 0
+z =  2  → ReLU → 2
+z =  5  → ReLU → 5
+```
+
+La función de activación introduce **no linealidad**, permitiendo que la red aprenda relaciones más complejas entre las características de entrada.
+
+---
+
+### Capas de una red neuronal
+
+Una red neuronal MLP se organiza normalmente en:
+
+```text
+Capa de entrada
+      ↓
+Capa(s) oculta(s)
+      ↓
+Capa de salida
+```
+
+En este proyecto, conceptualmente:
+
+```text
+512 características estandarizadas
+             ↓
+┌─────────────────────────┐
+│    Capa de entrada      │
+│       512 valores       │
+└─────────────────────────┘
+             ↓
+┌─────────────────────────┐
+│      Capa oculta        │
+│       neuronas          │
+│         ReLU            │
+└─────────────────────────┘
+             ↓
+┌─────────────────────────┐
+│      Capa de salida     │
+│        3 clases         │
+└─────────────────────────┘
+             ↓
+      fondo
+      murciélago
+      plátano
+```
+
+La **capa de entrada** recibe las características, la **capa oculta** aprende combinaciones y patrones relevantes y la **capa de salida** genera la clasificación.
+
+---
+
+### ¿Qué significa que una red neuronal aprende?
+
+Al comienzo del entrenamiento, los pesos de la red todavía no representan una solución adecuada.
+
+Durante el entrenamiento se realiza repetidamente el siguiente proceso:
+
+```text
+Características de entrada
+          ↓
+Red neuronal
+          ↓
+Predicción
+          ↓
+Comparar con la clase real
+          ↓
+Calcular el error
+          ↓
+Ajustar pesos y sesgos
+          ↓
+Nueva predicción
+```
+
+El objetivo es encontrar los pesos y sesgos que permitan reducir una función de pérdida:
+
+$$
+\mathcal{L}(y,\hat{y})
+$$
+
+donde:
+
+- $y$ representa la clase real.
+- $\hat{y}$ representa la predicción del modelo.
+- $\mathcal{L}$ representa el error de predicción.
+
+> **Entrenar una red neuronal consiste en ajustar sus pesos y sesgos para reducir progresivamente el error de clasificación.**
+
+---
+
+## Conjuntos TRAIN y TEST
+
+Para desarrollar un modelo de aprendizaje automático no es recomendable entrenar y evaluar utilizando exactamente los mismos datos.
+
+Por esta razón, el conjunto de datos se divide en al menos dos grupos:
+
+```text
+Dataset
+   ↓
+┌─────────────────┬─────────────────┐
+│      TRAIN      │      TEST       │
+│  Entrenamiento  │   Evaluación    │
+└─────────────────┴─────────────────┘
+```
+
+---
+
+### TRAIN
+
+El conjunto **TRAIN** contiene los ejemplos que utiliza el modelo para aprender.
+
+Durante esta etapa:
+
+```text
+Audios TRAIN
+      ↓
+Extracción de características
+      ↓
+StandardScaler
+      ↓
+Red neuronal
+      ↓
+Predicción
+      ↓
+Comparación con la etiqueta real
+      ↓
+Ajuste de pesos
+```
+
+Por tanto:
+
+> **TRAIN es el conjunto de datos utilizado para aprender los parámetros del modelo.**
+
+---
+
+### TEST
+
+El conjunto **TEST** contiene ejemplos que el modelo no utiliza para modificar sus pesos durante el entrenamiento.
+
+Después de finalizar el entrenamiento, estos ejemplos se utilizan para evaluar el comportamiento del modelo:
+
+```text
+Datos TEST
+    ↓
+Modelo entrenado
+    ↓
+Predicciones
+    ↓
+Comparación con las clases reales
+    ↓
+Métricas de desempeño
+```
+
+El objetivo es comprobar si el modelo puede clasificar correctamente ejemplos que **no utilizó para aprender**.
+
+Esta capacidad se conoce como **generalización**.
+
+---
+
+### ¿Por qué no evaluar solamente con TRAIN?
+
+Un modelo podría obtener resultados excelentes sobre los mismos datos utilizados durante el entrenamiento, pero funcionar mal cuando recibe nuevos ejemplos.
+
+Conceptualmente:
+
+```text
+Excelente desempeño en TRAIN
+              +
+Bajo desempeño en TEST
+              ↓
+         Overfitting
+```
+
+Este fenómeno se denomina **sobreajuste** (*overfitting*).
+
+El conjunto TEST permite comprobar si el modelo aprendió patrones generales o simplemente se adaptó demasiado a los ejemplos de entrenamiento.
+
+Una analogía sencilla sería:
+
+```text
+TRAIN
+=
+ejercicios utilizados para aprender
+
+TEST
+=
+preguntas nuevas utilizadas para comprobar
+si realmente se aprendió
+```
+
+---
+
+## Evitar fuga de información entre TRAIN y TEST
+
+El conjunto TEST debe mantenerse independiente del proceso de entrenamiento.
+
+Por ejemplo, `StandardScaler` debe calcular la media y la desviación estándar utilizando únicamente los datos de TRAIN.
+
+El procedimiento correcto es:
+
+```text
+Dataset
+   ↓
+Separar TRAIN / TEST
+   ↓
+StandardScaler.fit(TRAIN)
+   ↓
+Transformar TRAIN
+Transformar TEST
+   ↓
+Entrenar con TRAIN
+   ↓
+Evaluar con TEST
+```
+
+No se recomienda:
+
+```text
+Dataset completo
+      ↓
+StandardScaler
+      ↓
+Separar TRAIN / TEST
+```
+
+porque en ese caso la información estadística del conjunto TEST habría participado indirectamente en el procesamiento utilizado durante el entrenamiento.
+
+---
+
+## TRAIN, TEST y aumento de datos
+
+El mismo principio aplica al **data augmentation**.
+
+Las versiones modificadas de los audios deben generarse a partir del conjunto TRAIN.
+
+```text
+TRAIN real
+   ↓
+Data augmentation
+   ↓
+TRAIN aumentado
+   ↓
+Entrenamiento
+```
+
+Mientras que TEST debe mantenerse independiente:
+
+```text
+TEST
+ ↓
+Audios reales no utilizados
+durante el entrenamiento
+ ↓
+Evaluación final
+```
+
+Esto permite realizar una evaluación más confiable del comportamiento del modelo frente a señales no vistas.
+
+---
+
+## Flujo general del aprendizaje
+
+```text
+Audios etiquetados
+        ↓
+Separación TRAIN / TEST
+        ↓
+Extracción de características
+        ↓
+512 características
+        ↓
+StandardScaler
+ajustado únicamente con TRAIN
+        ↓
+MLP
+        ↓
+Entrenamiento con TRAIN
+        ↓
+Modelo entrenado
+        ↓
+Evaluación con TEST
+        ↓
+Predicciones y métricas
+```
+
+> **En resumen:** la red neuronal artificial aprende patrones mediante el ajuste de pesos y sesgos a partir de los ejemplos del conjunto TRAIN. El conjunto TEST permanece separado y se utiliza posteriormente para determinar si el modelo es capaz de generalizar correctamente a señales que no fueron utilizadas durante el entrenamiento.
+
+
+
+
+
+
+
