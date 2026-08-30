@@ -186,7 +186,8 @@ Transformada de Fourier
        ↓
 Componentes frecuenciales
 
-#### Resolución frecuencial```
+#### Resolución frecuencial
+```
 
 La separación entre los bins del espectro se calcula mediante:
 
