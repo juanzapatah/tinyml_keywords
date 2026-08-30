@@ -390,6 +390,322 @@ $$
 Cada grabación produce entonces **236 ventanas temporales**.
 
 
+### Fuga espectral y ventana de Hann
+
+Normalmente no se dispone de una señal infinita, sino de un **fragmento de duración limitada**. En este proyecto, por ejemplo, el audio se divide en segmentos de **25 ms** para analizar cómo cambia su contenido frecuencial a lo largo del tiempo. Al realizar este recorte, el fragmento puede comenzar y terminar en cualquier punto de las oscilaciones presentes en la señal. Por tanto, sus extremos no necesariamente coinciden de forma natural.
+
+Por ejemplo, para una señal de 500 Hz analizada durante 25 ms:
+
+$$
+500 \times 0.025 = 12.5
+$$
+
+Dentro del fragmento aparecen **12.5 ciclos**. Esto significa que el segmento termina a mitad de un ciclo.
+
+La FFT analiza ese fragmento finito y, como consecuencia del corte, la energía asociada originalmente con una frecuencia puede aparecer distribuida hacia frecuencias cercanas. Este fenómeno se denomina **fuga espectral** (*spectral leakage*).
+
+Es decir, **La fuga espectral ocurre cuando la energía de una componente frecuencial aparece distribuida artificialmente hacia otras frecuencias debido al análisis de un fragmento finito de la señal.**
+
+Por ejemplo, aunque una señal contenga únicamente una frecuencia de 500 Hz, su FFT puede mostrar energía alrededor de 400 Hz, 450 Hz, 550 Hz, 600 Hz y otras frecuencias. Esta energía adicional no implica necesariamente que estas frecuencias estuvieran presentes originalmente en la señal. Parte de ella aparece como consecuencia del recorte utilizado para realizar el análisis.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# ==========================================================
+# FFT PARA COMPARAR:
+# 1. Señal original completa
+# 2. Fragmento de 25 ms
+# 3. Fragmento de 25 ms + Hann
+# ==========================================================
+
+# Número grande de puntos para visualizar mejor el espectro
+NFFT = 4096
+
+# ----------------------------------------------------------
+# 1. FFT DE LA SEÑAL ORIGINAL COMPLETA
+# ----------------------------------------------------------
+
+X_original = np.fft.rfft(x_total, n=NFFT)
+
+# ----------------------------------------------------------
+# 2. FFT DEL FRAGMENTO DE 25 ms SIN HANN
+# ----------------------------------------------------------
+
+X_segmento = np.fft.rfft(x_segmento, n=NFFT)
+
+# ----------------------------------------------------------
+# 3. FFT DEL FRAGMENTO DESPUÉS DE HANN
+# ----------------------------------------------------------
+
+X_hann = np.fft.rfft(x_hann, n=NFFT)
+
+# ----------------------------------------------------------
+# EJE DE FRECUENCIAS
+# ----------------------------------------------------------
+
+frecuencias = np.fft.rfftfreq(NFFT, d=1/fs)
+
+# ==========================================================
+# MAGNITUD NORMALIZADA EN dB
+# ==========================================================
+
+mag_original = 20 * np.log10(
+    np.abs(X_original) / np.max(np.abs(X_original)) + 1e-12
+)
+
+mag_segmento = 20 * np.log10(
+    np.abs(X_segmento) / np.max(np.abs(X_segmento)) + 1e-12
+)
+
+mag_hann = 20 * np.log10(
+    np.abs(X_hann) / np.max(np.abs(X_hann)) + 1e-12
+)
+
+# ==========================================================
+# GRÁFICA: 3 FILAS × 1 COLUMNA
+# ==========================================================
+
+fig, ax = plt.subplots(
+    3,
+    1,
+    figsize=(12, 11),
+    sharex=True
+)
+
+# ----------------------------------------------------------
+# FFT señal original
+# ----------------------------------------------------------
+
+ax[0].plot(frecuencias, mag_original)
+
+ax[0].axvline(
+    f,
+    linestyle="--",
+    label=f"Frecuencia real = {f} Hz"
+)
+
+ax[0].set_title(
+    "FFT de la señal original"
+)
+
+ax[0].set_ylabel(
+    "Magnitud normalizada [dB]"
+)
+
+ax[0].set_xlim(0, 1500)
+ax[0].set_ylim(-100, 5)
+
+ax[0].legend()
+ax[0].grid()
+
+
+# ----------------------------------------------------------
+# FFT fragmento SIN Hann
+# ----------------------------------------------------------
+
+ax[1].plot(frecuencias, mag_segmento)
+
+ax[1].axvline(
+    f,
+    linestyle="--",
+    label=f"Frecuencia real = {f} Hz"
+)
+
+ax[1].set_title(
+    "FFT del fragmento de 25 ms sin ventana de Hann"
+)
+
+ax[1].set_ylabel(
+    "Magnitud normalizada [dB]"
+)
+
+ax[1].set_xlim(0, 1500)
+ax[1].set_ylim(-100, 5)
+
+ax[1].legend()
+ax[1].grid()
+
+
+# ----------------------------------------------------------
+# FFT fragmento CON Hann
+# ----------------------------------------------------------
+
+ax[2].plot(frecuencias, mag_hann)
+
+ax[2].axvline(
+    f,
+    linestyle="--",
+    label=f"Frecuencia real = {f} Hz"
+)
+
+ax[2].set_title(
+    "FFT del fragmento de 25 ms después de aplicar Hann"
+)
+
+ax[2].set_xlabel(
+    "Frecuencia [Hz]"
+)
+
+ax[2].set_ylabel(
+    "Magnitud normalizada [dB]"
+)
+
+ax[2].set_xlim(0, 1500)
+ax[2].set_ylim(-100, 5)
+
+ax[2].legend()
+ax[2].grid()
+
+plt.tight_layout()
+plt.show()
+```
+
+---
+
+### ¿Cómo ayuda la ventana de Hann?
+
+Para reducir los efectos producidos por los cortes se utiliza una **función de ventana**.
+
+En este proyecto se emplea la **ventana de Hann**, definida como:
+
+$$
+w[n] = 0.5 - 0.5\cos\left(\frac{2\pi n}{N-1}\right)
+$$
+
+La ventana se multiplica punto a punto por el fragmento de señal:
+
+$$
+x_{Hann}[n] = x[n]w[n]
+$$
+
+La ventana de Hann tiene valores próximos a cero en los extremos y cercanos a uno en la zona central.
+
+Por tanto, transforma un segmento con extremos abruptos en otro cuyos extremos disminuyen progresivamente:
+
+```text
+Fragmento original
+
+| /\/\/\/\/\/\/\/\/\/\/\ |
+↑                        ↑
+corte                  corte
+
+
+Ventana de Hann
+
+      ___________
+    /             \
+___/               \___
+
+
+Fragmento × Hann
+
+    ▁▂▄▆/\/\/\/\▆▄▂▁
+
+
+
+
+
+
+
+Cortar una señal abruptamente puede introducir discontinuidades en los extremos de cada segmento. Estas discontinuidades producen un fenómeno denominado **fuga espectral**, en el que la energía correspondiente a determinadas frecuencias se distribuye hacia frecuencias vecinas.
+
+Para reducir este efecto se utiliza una función de ventana.
+
+En este proyecto se utiliza la **ventana de Hann**:
+
+$$
+w[n]
+=
+0.5
+-
+0.5
+\cos
+\left(
+\frac{2\pi n}{N-1}
+\right)
+$$
+
+La señal ventaneada se obtiene mediante:
+
+$$
+x_w[n]=x[n]w[n]
+$$
+
+Conceptualmente:
+
+```text
+Segmento de audio
+       ↓
+Ventana de Hann
+       ↓
+Extremos suavizados
+       ↓
+FFT
+```
+
+#### Zero padding
+
+Cada segmento contiene **400 muestras**, mientras que se utiliza una FFT de **512 puntos**.
+
+Por esta razón se agregan:
+
+$$
+512-400=112
+$$
+
+ceros.
+
+```text
+400 muestras reales
+        +
+112 ceros
+        ↓
+512 valores
+        ↓
+FFT
+```
+
+Este procedimiento se denomina **zero padding**.
+
+El zero padding no agrega nueva información a la señal, pero permite trabajar con un tamaño de FFT conveniente.
+
+---
+
+### 3.10 Espectrograma
+
+La aplicación sucesiva de FFT sobre pequeñas ventanas temporales permite construir una representación denominada **espectrograma**.
+
+Un espectrograma representa simultáneamente:
+
+```text
+Eje horizontal → Tiempo
+Eje vertical   → Frecuencia
+Intensidad     → Energía
+```
+
+La potencia espectral puede calcularse mediante:
+
+$$
+P(m,k)=|X(m,k)|^2
+$$
+
+donde:
+
+- $m$ representa la ventana temporal.
+- $k$ representa el bin frecuencial.
+
+Diferentes palabras producen patrones tiempo-frecuencia diferentes.
+
+Por ejemplo, **murciélago** y **plátano** generan distribuciones de energía distintas durante su pronunciación.
+
+Estas diferencias pueden utilizarse como información para un algoritmo de aprendizaje automático.
+
+Sin embargo, utilizar directamente toda la representación tiempo-frecuencia puede requerir una cantidad considerable de memoria y capacidad de procesamiento.
+
+Por esta razón, en este proyecto se utiliza una representación más compacta.
+
+
 
 
 
