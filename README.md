@@ -535,4 +535,4 @@ $$
 
 la señal original sigue conteniendo únicamente **25 ms de información real**. Esto permite utilizar una FFT eficiente y obtener valores del espectro en frecuencias más cercanas entre sí. Sin embargo, no agrega nueva información a la señal, no mejora por sí solo la resolución en frecuencia rea. 
 
-
+### Espectrograma
