@@ -14,3 +14,22 @@ Para implementar el sistema de reconocimiento de palabras con TinyML se requiere
 - Protoboard
 - Cables de conexión
 - Cable USB para programación y alimentación
+
+### ¿Qué es una señal?
+
+Una **señal** es una representación de cómo cambia una magnitud física con respecto a otra variable, generalmente el tiempo. En el caso del sonido, las variaciones de presión del aire producidas por una fuente sonora, como la voz humana, pueden ser convertidas por un micrófono (**MAX9814**) en una señal eléctrica.
+
+Matemáticamente, una señal continua puede representarse como:
+
+$$
+x(t)
+$$
+
+donde:
+
+- $x$ representa la amplitud de la señal.
+- $t$ representa el tiempo.
+
+Cuando una persona pronuncia una palabra como **"murciélago"** o **"plátano"**, la presión acústica cambia continuamente, generando una forma de onda particular.
+
+En este sistema, el micrófono convierte las variaciones acústicas producidas por la voz en una señal eléctrica. El módulo **MAX9814** amplifica y acondiciona esta señal antes de que sea adquirida por el convertidor analógico-digital del **ESP32-S3**.
