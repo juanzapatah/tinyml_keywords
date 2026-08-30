@@ -290,5 +290,106 @@ Aplicar una única Transformada de Fourier a toda una grabación permite determi
 > **FFT global no permite determinar directamente en qué momento aparece cada componente frecuencial.**
 
 
+### Transformada de Fourier de Tiempo Corto
+
+La **Transformada de Fourier de Tiempo Corto**, permite analizar cómo cambia las frecuencias presentes en una señal a medida que transcurre el tiempo. La señal se divide en pequeñas ventanas temporales y se calcula una FFT para cada una.
+
+```text
+Audio completo
+│
+├── Ventana 1 → FFT
+├── Ventana 2 → FFT
+├── Ventana 3 → FFT
+├── Ventana 4 → FFT
+│
+└── ...
+        ↓
+Representación tiempo-frecuencia
+```
+
+Una expresión general de la STFT puede escribirse como:
+
+$$
+X(m,k) =
+\sum_n
+x[n]w[n-mH]e^{-j2\pi kn/N}
+$$
+
+donde:
+
+- $x[n]$ representa la señal.
+- $w[n]$ representa la función de ventana.
+- $m$ representa la posición temporal.
+- $H$ representa el desplazamiento entre ventanas.
+- $k$ representa el índice frecuencial.
+- $N$ representa el tamaño de la FFT.
+
+#### Parámetros utilizados en este proyecto
+
+| Parámetro | Valor |
+|---|---:|
+| Frecuencia de muestreo | 16 kHz |
+| Duración del audio | 1.2 s |
+| Número de muestras | 19.200 |
+| Longitud de ventana | 25 ms |
+| Muestras por ventana | 400 |
+| Desplazamiento (*hop*) | 5 ms |
+| Muestras por desplazamiento | 80 |
+| Tamaño FFT | 512 |
+| Frecuencia mínima | 80 Hz |
+| Frecuencia máxima | 3000 Hz |
+
+Una ventana de 25 ms contiene:
+
+$$
+0.025\times16000=400
+$$
+
+muestras.
+
+El desplazamiento de 5 ms corresponde a:
+
+$$
+0.005\times16000=80
+$$
+
+muestras.
+
+Como el desplazamiento es menor que la longitud de la ventana, las ventanas se superponen.
+
+#### Número de ventanas
+
+El número de ventanas se calcula mediante:
+
+$$
+N_w=
+1+
+\left\lfloor
+\frac{N-L}{H}
+\right\rfloor
+$$
+
+donde:
+
+- $N=19200$
+- $L=400$
+- $H=80$
+
+Por tanto:
+
+$$
+N_w=
+1+
+\left\lfloor
+\frac{19200-400}{80}
+\right\rfloor
+=
+236
+$$
+
+Cada grabación produce entonces **236 ventanas temporales**.
+
+
+
 
 
