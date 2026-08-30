@@ -64,3 +64,10 @@ ADC
 Secuencia digital de muestras
 ```
 
+El **ADC del ESP32-S3** se configura con una resolución de **12 bits**. Por tanto, cada muestra puede representarse aproximadamente mediante valores comprendidos entre:
+
+$$
+0 \leq x[n] \leq 4095
+$$
+
+Antes de realizar el análisis espectral, se elimina el valor medio de la señal para reducir su componente de continua.
