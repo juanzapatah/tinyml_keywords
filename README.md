@@ -175,68 +175,18 @@ Esta característica de la voz requiere el uso de representaciones **tiempo-frec
 
 ### Transformada de Fourier
 
-Una señal de audio se representa inicialmente en el **dominio del tiempo**. La **Transformada de Fourier** permite representar esta señal en función de sus componentes frecuenciales.
+La Transformada de Fourier permite representar una señal en términos de componentes sinusoidales de diferentes frecuencias. La idea fundamental es que una señal compleja puede describirse como una combinación de senos y cosenos, o de forma equivalente, mediante exponenciales complejas.
 
 Conceptualmente:
 
 ```text
-Dominio del tiempo
-        ↓
+Señal en el tiempo
+       ↓
 Transformada de Fourier
-        ↓
-Dominio de la frecuencia
-```
+       ↓
+Componentes frecuenciales
 
-Para una señal continua:
-
-$$ X(f) = \int_{-\infty}^{\infty} x(t)e^{-j2\pi ft}\,dt $$
-
-donde:
-
-- $x(t)$ representa la señal en el tiempo.
-- $X(f)$ representa su contenido frecuencial.
-- $f$ representa la frecuencia.
-- $j$ representa la unidad imaginaria.
-
-La Transformada de Fourier permite responder una pregunta fundamental:  **¿Qué frecuencias están presentes en una señal?**
-
-### 3.6 Discrete Fourier Transform (DFT) y Fast Fourier Transfrom (FFT)
-
-Los computadores y microcontroladores trabajan con señales digitales formadas por un número finito de muestras. Por esta razón se utiliza la **Transformada Discreta de Fourier (DFT)**.
-
-Para una señal de $N$ muestras:
-
-$$
-X[k]
-=
-\sum_{n=0}^{N-1}
-x[n]e^{-j2\pi kn/N}
-$$
-
-donde:
-
-- $n$ corresponde al índice temporal.
-- $k$ corresponde al índice frecuencial.
-- $N$ corresponde al número de muestras.
-- $X[k]$ representa cada componente del espectro.
-
-#### Transformada Rápida de Fourier
-
-La **FFT (Fast Fourier Transform)** no es una transformada diferente. La FFT es un algoritmo eficiente para calcular la DFT utilizando un menor número de operaciones. Una implementación directa de la DFT presenta aproximadamente una complejidad:
-
-$$
-O(N^2)
-$$
-
-mientras que la FFT puede reducirla aproximadamente a:
-
-$$
-O(N\log_2N)
-$$
-
-Esta reducción resulta especialmente importante en sistemas embebidos y aplicaciones TinyML.
-
-#### Resolución frecuencial
+#### Resolución frecuencial```
 
 La separación entre los bins del espectro se calcula mediante:
 
