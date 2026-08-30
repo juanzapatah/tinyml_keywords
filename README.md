@@ -790,37 +790,25 @@ Predicción
         ↓
 fondo / murciélago / plátano
 ```
-
-La red no recibe directamente la palabra hablada. Recibe una representación numérica que resume cómo se distribuye la energía de la señal en el tiempo y en la frecuencia.
-
 ---
 
 ### Neurona artificial
 
 Una neurona artificial recibe diferentes valores de entrada:
 
-$$
-x_1,x_2,x_3,\ldots,x_n
-$$
+$$ x_1,x_2,x_3,\ldots,x_n $$
 
 Cada entrada se multiplica por un peso:
 
-$$
-w_1,w_2,w_3,\ldots,w_n
-$$
+$$ w_1,w_2,w_3,\ldots,w_n $$
 
 Posteriormente, los resultados se suman junto con un término denominado **sesgo** o *bias*:
 
-$$
-z =
-w_1x_1+w_2x_2+\cdots+w_nx_n+b
-$$
+$$ z = w_1x_1+w_2x_2+\cdots+w_nx_n+b $$
 
 De forma compacta:
 
-$$
-z=\sum_{i=1}^{n}w_ix_i+b
-$$
+$$ z=\sum_{i=1}^{n}w_ix_i+b $$
 
 donde:
 
@@ -841,17 +829,11 @@ xn ── wn ──┘
 
 Los **pesos** representan la importancia que la red asigna a cada entrada y son precisamente algunos de los parámetros que se modifican durante el entrenamiento.
 
----
+### Función de activación en la red neuronal 
 
-### Función de activación
+Después de calcular $z$, la neurona aplica una **función de activación**. En una red MLP es frecuente utilizar la función **ReLU**:
 
-Después de calcular $z$, la neurona aplica una **función de activación**.
-
-En una red MLP es frecuente utilizar la función **ReLU**:
-
-$$
-\operatorname{ReLU}(z)=\max(0,z)
-$$
+$$ \operatorname{ReLU}(z)=\max(0,z) $$
 
 Esto significa:
 
@@ -863,15 +845,8 @@ z, & z\geq0
 \end{cases}
 $$
 
-Por ejemplo:
 
-```text
-z = -3  → ReLU → 0
-z =  2  → ReLU → 2
-z =  5  → ReLU → 5
-```
-
-La función de activación introduce **no linealidad**, permitiendo que la red aprenda relaciones más complejas entre las características de entrada.
+La función de activación permite que la red aprenda relaciones más complejas entre las características de entrada.
 
 ---
 
@@ -919,9 +894,7 @@ La **capa de entrada** recibe las características, la **capa oculta** aprende c
 
 ### ¿Qué significa que una red neuronal aprende?
 
-Al comienzo del entrenamiento, los pesos de la red todavía no representan una solución adecuada.
-
-Durante el entrenamiento se realiza repetidamente el siguiente proceso:
+Al comienzo del entrenamiento, los pesos de la red todavía no representan una solución adecuada. Durante el entrenamiento se realiza repetidamente el siguiente proceso:
 
 ```text
 Características de entrada
@@ -957,20 +930,8 @@ donde:
 
 ## Conjuntos TRAIN y TEST
 
-Para desarrollar un modelo de aprendizaje automático no es recomendable entrenar y evaluar utilizando exactamente los mismos datos.
+Para desarrollar un modelo de aprendizaje automático no es recomendable entrenar y evaluar utilizando exactamente los mismos datos. Por esta razón, el conjunto de datos se divide en al menos dos grupos:
 
-Por esta razón, el conjunto de datos se divide en al menos dos grupos:
-
-```text
-Dataset
-   ↓
-┌─────────────────┬─────────────────┐
-│      TRAIN      │      TEST       │
-│  Entrenamiento  │   Evaluación    │
-└─────────────────┴─────────────────┘
-```
-
----
 
 ### TRAIN
 
@@ -1002,10 +963,8 @@ Por tanto:
 
 ### TEST
 
-El conjunto **TEST** contiene ejemplos que el modelo no utiliza para modificar sus pesos durante el entrenamiento.
-
-Después de finalizar el entrenamiento, estos ejemplos se utilizan para evaluar el comportamiento del modelo:
-
+El conjunto **TEST** contiene ejemplos que el modelo no utiliza para modificar sus pesos durante el entrenamiento.Después de finalizar el entrenamiento, estos ejemplos se utilizan para evaluar el comportamiento del modelo:
+ 
 ```text
 Datos TEST
     ↓
@@ -1020,108 +979,17 @@ Métricas de desempeño
 
 El objetivo es comprobar si el modelo puede clasificar correctamente ejemplos que **no utilizó para aprender**.
 
-Esta capacidad se conoce como **generalización**.
-
----
 
 ### ¿Por qué no evaluar solamente con TRAIN?
 
-Un modelo podría obtener resultados excelentes sobre los mismos datos utilizados durante el entrenamiento, pero funcionar mal cuando recibe nuevos ejemplos.
-
-Conceptualmente:
-
-```text
-Excelente desempeño en TRAIN
-              +
-Bajo desempeño en TEST
-              ↓
-         Overfitting
-```
-
-Este fenómeno se denomina **sobreajuste** (*overfitting*).
+Un modelo podría obtener resultados excelentes sobre los mismos datos utilizados durante el entrenamiento, pero funcionar mal cuando recibe nuevos ejemplos. Este fenómeno se denomina **sobreajuste** (*overfitting*).
 
 El conjunto TEST permite comprobar si el modelo aprendió patrones generales o simplemente se adaptó demasiado a los ejemplos de entrenamiento.
 
-Una analogía sencilla sería:
-
-```text
-TRAIN
-=
-ejercicios utilizados para aprender
-
-TEST
-=
-preguntas nuevas utilizadas para comprobar
-si realmente se aprendió
-```
-
----
-
-## Evitar fuga de información entre TRAIN y TEST
-
-El conjunto TEST debe mantenerse independiente del proceso de entrenamiento.
-
-Por ejemplo, `StandardScaler` debe calcular la media y la desviación estándar utilizando únicamente los datos de TRAIN.
-
-El procedimiento correcto es:
-
-```text
-Dataset
-   ↓
-Separar TRAIN / TEST
-   ↓
-StandardScaler.fit(TRAIN)
-   ↓
-Transformar TRAIN
-Transformar TEST
-   ↓
-Entrenar con TRAIN
-   ↓
-Evaluar con TEST
-```
-
-No se recomienda:
-
-```text
-Dataset completo
-      ↓
-StandardScaler
-      ↓
-Separar TRAIN / TEST
-```
-
-porque en ese caso la información estadística del conjunto TEST habría participado indirectamente en el procesamiento utilizado durante el entrenamiento.
-
----
 
 ## TRAIN, TEST y aumento de datos
 
-El mismo principio aplica al **data augmentation**.
-
-Las versiones modificadas de los audios deben generarse a partir del conjunto TRAIN.
-
-```text
-TRAIN real
-   ↓
-Data augmentation
-   ↓
-TRAIN aumentado
-   ↓
-Entrenamiento
-```
-
-Mientras que TEST debe mantenerse independiente:
-
-```text
-TEST
- ↓
-Audios reales no utilizados
-durante el entrenamiento
- ↓
-Evaluación final
-```
-
-Esto permite realizar una evaluación más confiable del comportamiento del modelo frente a señales no vistas.
+Para **data augmentation**. Las versiones modificadas de los audios deben generarse a partir del conjunto TRAIN. Mientras que TEST debe mantenerse independiente. Esto permite realizar una evaluación más confiable del comportamiento del modelo frente a señales no vistas.
 
 ---
 
@@ -1150,7 +1018,6 @@ Evaluación con TEST
 Predicciones y métricas
 ```
 
-> **En resumen:** la red neuronal artificial aprende patrones mediante el ajuste de pesos y sesgos a partir de los ejemplos del conjunto TRAIN. El conjunto TEST permanece separado y se utiliza posteriormente para determinar si el modelo es capaz de generalizar correctamente a señales que no fueron utilizadas durante el entrenamiento.
 
 
 
