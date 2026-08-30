@@ -427,7 +427,7 @@ $$
 
 La ventana de Hann tiene valores próximos a cero en los extremos y cercanos a uno en la zona central. Por tanto, transforma un segmento con extremos abruptos en otro cuyos extremos disminuyen progresivamente:
 
-![Fuga espectral](images/Fuga_espectral_ventana_de_Hann.png)
+![Fuga espectral](images/ventana_hann.png)
 
 #### Zero padding
 
