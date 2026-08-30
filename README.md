@@ -171,3 +171,40 @@ Cada segmento presenta diferentes combinaciones de vocales, consonantes y transi
 También resulta importante conocer: **cómo cambian las frecuencias a lo largo del tiempo.**
 
 Esta característica de la voz requiere el uso de representaciones **tiempo-frecuencia**.
+
+
+### Transformada de Fourier
+
+Una señal de audio se representa inicialmente en el **dominio del tiempo**. La **Transformada de Fourier** permite representar esta señal en función de sus componentes frecuenciales.
+
+Conceptualmente:
+
+```text
+Dominio del tiempo
+        ↓
+Transformada de Fourier
+        ↓
+Dominio de la frecuencia
+```
+
+Para una señal continua:
+
+$$
+X(f)
+=
+\int_{-\infty}^{\infty}
+x(t)e^{-j2\pi ft}\,dt
+$$
+
+donde:
+
+- $x(t)$ representa la señal en el tiempo.
+- $X(f)$ representa su contenido frecuencial.
+- $f$ representa la frecuencia.
+- $j$ representa la unidad imaginaria.
+
+La Transformada de Fourier permite responder una pregunta fundamental:
+
+> **¿Qué frecuencias están presentes en una señal?**
+
+En una señal de voz, diferentes sonidos producen distribuciones particulares de energía en el dominio frecuencial.
