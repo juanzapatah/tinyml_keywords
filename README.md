@@ -284,6 +284,11 @@ En términos simples: **La DFT lleva la idea de la Transformada de Fourier al pr
 
 La **Transformada Rápida de Fourier (FFT)** no es una transformada diferente de la DFT. La FFT es un conjunto de algoritmos que permite **calcular la DFT de manera mucho más eficiente**.  FFT es especialmente importante cuando se procesan grandes cantidades de datos o cuando los cálculos deben realizarse en dispositivos con recursos limitados, como un microcontrolador.
 
+### Limitaciones de Fourier
+
+Aplicar una única Transformada de Fourier a toda una grabación permite determinar las frecuencias presentes en el audio completo. Sin embargo, existe una limitación fundamental:
+> **FFT global no permite determinar directamente en qué momento aparece cada componente frecuencial.**
+
 
 
 
