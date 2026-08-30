@@ -226,10 +226,7 @@ $$
 La DFT se define mediante:
 
 $$
-X[k]
-=
-\sum_{n=0}^{N-1}
-x[n]e^{-j2\pi kn/N}
+X[k] = \sum_{n=0}^{N-1} x[n]e^{-j2\pi kn/N}
 $$
 
 donde:
@@ -237,6 +234,7 @@ donde:
 - $n$ representa el índice de la muestra en el dominio temporal.
 - $k$ representa el índice en el dominio frecuencial.
 - $N$ representa el número total de muestras analizadas.
+- $X[k]$ representa la contribución de la componente frecuencial asociada al índice $k$.
 - $X[k]$ representa la contribución de la componente frecuencial asociada al índice $k$.
 
 Conceptualmente:
