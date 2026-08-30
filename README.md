@@ -189,31 +189,100 @@ Componentes frecuenciales
 #### Resolución frecuencial
 ```
 
-La separación entre los bins del espectro se calcula mediante:
+Para una señal continua, la Transformada de Fourier se expresa como:
 
 $$
-\Delta f = \frac{f_s}{N_{FFT}}
+X(f)=
+\int_{-\infty}^{\infty}
+x(t)e^{-j2\pi ft}\,dt
 $$
 
-En este proyecto:
+donde:
+
+- $x(t)$ representa la señal en el dominio del tiempo.
+- $X(f)$ representa la señal en el dominio de la frecuencia.
+- $f$ representa la frecuencia.
+- $j$ representa la unidad imaginaria.
+
+El resultado de la Transformada de Fourier permite determinar **qué frecuencias están presentes en una señal y con qué amplitud y fase contribuye cada una de ellas**.
+
+Por ejemplo, si una señal contiene principalmente componentes de 200 Hz y 800 Hz, su representación en frecuencia mostrará una mayor contribución alrededor de esas frecuencias.
+
+En una señal de voz, este análisis permite estudiar cómo se distribuye la energía entre diferentes componentes frecuenciales.
+
+En términos simples:
+
+> **La Transformada de Fourier permite pasar de observar cómo cambia una señal en el tiempo a analizar las frecuencias que la componen.**
+
+
+### 3.6 Transformada Discreta de Fourier (DFT)
+
+Los computadores y **microcontroladores** no procesan directamente señales continuas. Trabajan con secuencias de valores obtenidos mediante el proceso de muestreo. Por esta razón se utiliza la **Transformada Discreta de Fourier (DFT)**. Mientras que la Transformada de Fourier describe matemáticamente una señal continua en el dominio frecuencial, la DFT permite realizar este análisis sobre una cantidad finita de muestras digitales.
+
+Una señal digital formada por $N$ muestras puede representarse como:
 
 $$
-f_s = 16000\ Hz
+x[0],x[1],x[2],...,x[N-1]
 $$
 
-y:
+La DFT se define mediante:
 
 $$
-N_{FFT}=512
-$$
-
-Por tanto:
-
-$$
-\Delta f =
-\frac{16000}{512}
+X[k]
 =
-31.25\ Hz
+\sum_{n=0}^{N-1}
+x[n]e^{-j2\pi kn/N}
 $$
 
-Cada bin de la FFT representa aproximadamente **31.25 Hz**.
+donde:
+
+- $n$ representa el índice de la muestra en el dominio temporal.
+- $k$ representa el índice en el dominio frecuencial.
+- $N$ representa el número total de muestras analizadas.
+- $X[k]$ representa la contribución de la componente frecuencial asociada al índice $k$.
+
+Conceptualmente:
+
+```text
+Señal digital
+x[0], x[1], ..., x[N-1]
+          ↓
+         DFT
+          ↓
+Componentes frecuenciales
+X[0], X[1], ..., X[N-1]
+```
+
+Cada índice $k$ se relaciona con una frecuencia mediante:
+
+$$
+f_k=
+\frac{k f_s}{N}
+$$
+
+donde:
+
+- $f_k$ corresponde a la frecuencia asociada al bin $k$.
+- $f_s$ corresponde a la frecuencia de muestreo.
+- $N$ corresponde al número de puntos utilizados en la transformación.
+
+Por tanto, la DFT puede interpretarse como una forma de determinar **cuánto contribuye cada una de un conjunto de frecuencias conocidas a la señal original**.
+
+La magnitud de cada coeficiente:
+
+$$
+|X[k]|
+$$
+
+proporciona información sobre la intensidad de esa componente frecuencial, mientras que el ángulo:
+
+$$
+\angle X[k]
+$$
+
+contiene información sobre su fase.
+
+En términos simples: **La DFT lleva la idea de la Transformada de Fourier al procesamiento de señales digitales formadas por un número finito de muestras.**
+
+
+
