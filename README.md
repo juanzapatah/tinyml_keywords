@@ -217,9 +217,7 @@ En términos simples:
 
 ### 3.6 Transformada Discreta de Fourier (DFT)
 
-Los computadores y **microcontroladores** no procesan directamente señales continuas. Trabajan con secuencias de valores obtenidos mediante el proceso de muestreo. Por esta razón se utiliza la **Transformada Discreta de Fourier (DFT)**. Mientras que la Transformada de Fourier describe matemáticamente una señal continua en el dominio frecuencial, la DFT permite realizar este análisis sobre una cantidad finita de muestras digitales.
-
-Una señal digital formada por $N$ muestras puede representarse como:
+Los computadores y **microcontroladores** no procesan directamente señales continuas. Trabajan con secuencias de valores obtenidos mediante el proceso de muestreo. Por esta razón se utiliza la **Transformada Discreta de Fourier (DFT)**. Mientras que la Transformada de Fourier describe matemáticamente una señal continua en el dominio frecuencial, la DFT permite realizar este análisis sobre una cantidad finita de muestras digitales. Una señal digital formada por $N$ muestras puede representarse como:
 
 $$
 x[0],x[1],x[2],...,x[N-1]
@@ -233,7 +231,6 @@ X[k]
 \sum_{n=0}^{N-1}
 x[n]e^{-j2\pi kn/N}
 $$
-
 
 donde:
 
