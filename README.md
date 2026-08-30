@@ -451,4 +451,88 @@ ceros al final del fragmento.
 
 ```text
 400 muestras reales + 112 ceros = 512 puntos
+```
+
+
+#### ¿Por qué utilizar 512 puntos?
+
+Se seleccionan 512 puntos porque:
+
+$$
+512 = 2^9
+$$
+
+Las potencias de 2 permiten implementar algoritmos FFT de forma particularmente eficiente, ya que el cálculo puede dividirse repetidamente en problemas más pequeños. Aunque actualmente existen algoritmos FFT capaces de trabajar con tamaños que no son potencias de 2, utilizar valores como 256, 512, 1024 o 2048 sigue siendo una práctica común, especialmente en sistemas embebidos donde la eficiencia computacional es importante.
+
+En este caso:
+
+$$
+256 < 400 < 512
+$$
+
+por lo que **512 es la siguiente potencia de 2 capaz de contener las 400 muestras del fragmento**.
+
+---
+
+#### Espaciamiento entre los puntos del espectro
+
+El número de puntos utilizado en la FFT determina el espaciamiento entre los valores calculados en el eje de frecuencia:
+
+$$
+\Delta f = \frac{f_s}{N_{FFT}}
+$$
+
+Si se utilizara una FFT de 400 puntos:
+
+$$
+\Delta f = \frac{16000}{400} = 40\ Hz
+$$
+
+por lo que los puntos del espectro estarían ubicados en:
+
+```text
+0 Hz
+40 Hz
+80 Hz
+120 Hz
+160 Hz
+...
+```
+
+Al utilizar una FFT de 512 puntos:
+
+$$
+\Delta f = \frac{16000}{512} = 31.25\ Hz
+$$
+
+los puntos aparecen en:
+
+```text
+0 Hz
+31.25 Hz
+62.5 Hz
+93.75 Hz
+125 Hz
+156.25 Hz
+...
+```
+
+Por esta razón se dice que el zero padding produce una **representación más densa del espectro**: la FFT calcula valores en frecuencias más cercanas entre sí, permitiendo observar con mayor detalle la forma del espectro.
+
+#### ¿El zero padding aumenta la resolución frecuencial?
+
+No necesariamente. Aunque al pasar de 400 a 512 puntos el espaciamiento entre los bins disminuye de:
+
+$$
+40\ Hz
+$$
+
+a:
+
+$$
+31.25\ Hz
+$$
+
+la señal original sigue conteniendo únicamente **25 ms de información real**. Esto permite utilizar una FFT eficiente y obtener valores del espectro en frecuencias más cercanas entre sí. Sin embargo, no agrega nueva información a la señal, no mejora por sí solo la resolución en frecuencia rea. 
+
 
