@@ -88,3 +88,24 @@ puede convertirse en una secuencia discreta mediante:
 $$
 x[n] = x(nT_s)
 $$
+
+donde:
+
+- $n$ representa el índice de la muestra.
+- $T_s$ representa el periodo de muestreo.
+
+La frecuencia de muestreo se define como:
+
+$$
+f_s = \frac{1}{T_s}
+$$
+
+y representa el número de muestras adquiridas cada segundo.
+
+En este proyecto se utiliza:
+
+$$
+f_s = 16000\ Hz
+$$
+
+lo que significa que se adquieren **16.000 muestras por segundo**.
