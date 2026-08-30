@@ -170,3 +170,4 @@ Cada segmento presenta diferentes combinaciones de vocales, consonantes y transi
 
 También resulta importante conocer: **cómo cambian las frecuencias a lo largo del tiempo.**
 
+Esta característica de la voz requiere el uso de representaciones **tiempo-frecuencia**.
