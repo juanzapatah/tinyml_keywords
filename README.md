@@ -771,35 +771,4 @@ donde:
 
 La estandarización permite que las características se encuentren en escalas comparables, facilitando el proceso de entrenamiento de la red neuronal.
 
-
-#### Flujo completo hasta este punto
-
-```text
-Audio
-  ↓
-Muestreo
-  ↓
-Segmentación
-  ↓
-Ventana de Hann
-  ↓
-Zero padding
-  ↓
-FFT
-  ↓
-Potencia espectral
-  ↓
-Espectrograma
-  ↓
-Extracción de características
-  ↓
-512 características
-  ↓
-StandardScaler
-  ↓
-512 características estandarizadas
-  ↓
-MLP
-```
-
 > **En resumen:** La estandarización transforma las 512 características para que tengan escalas comparables, utilizando la media y desviación.
