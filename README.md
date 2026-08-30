@@ -408,7 +408,7 @@ Es decir, **La fuga espectral ocurre cuando la energía de una componente frecue
 
 Por ejemplo, aunque una señal contenga únicamente una frecuencia de 500 Hz, su FFT puede mostrar energía alrededor de 400 Hz, 450 Hz, 550 Hz, 600 Hz y otras frecuencias. Esta energía adicional no implica necesariamente que estas frecuencias estuvieran presentes originalmente en la señal. Parte de ella aparece como consecuencia del recorte utilizado para realizar el análisis.
 
-![Fuga espectral](images/fuga_espectral.png)
+![Fuga espectral](images/fFuga_espectral_ventana_de_Hann.png)
 
 
 ---
