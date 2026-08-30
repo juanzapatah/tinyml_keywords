@@ -166,4 +166,11 @@ Cada registro tiene **19.200 muestras de audio**.
 Una señal se considera aproximadamente **estacionaria** cuando sus propiedades estadísticas o espectrales permanecen constantes durante el intervalo analizado.
 
 La voz humana es una señal **no estacionaria**, debido a que su contenido frecuencial cambia continuamente durante la pronunciación.
+Cada segmento presenta diferentes combinaciones de vocales, consonantes y transiciones acústicas. Por esta razón, para reconocer una palabra no es suficiente conocer únicamente qué frecuencias aparecen durante toda la grabación.
+
+También resulta importante conocer:
+
+> **cómo cambian las frecuencias presentes a lo largo del tiempo.**
+
+Esta característica de la voz conduce al uso de representaciones **tiempo-frecuencia**.
 
