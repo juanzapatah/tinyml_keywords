@@ -521,17 +521,7 @@ Por esta razón se dice que el zero padding produce una **representación más d
 
 #### ¿El zero padding aumenta la resolución frecuencial?
 
-No necesariamente. Aunque al pasar de 400 a 512 puntos el espaciamiento entre los bins disminuye de:
-
-$$
-40\ Hz
-$$
-
-a:
-
-$$
-31.25\ Hz
-$$
+No necesariamente. Aunque al pasar de 400 a 512 puntos el espaciamiento entre los bins disminuye de: $$ 40\ Hz $$ a: $$31.25\ Hz $$
 
 la señal original sigue conteniendo únicamente **25 ms de información real**. Esto permite utilizar una FFT eficiente y obtener valores del espectro en frecuencias más cercanas entre sí. Sin embargo, no agrega nueva información a la señal, no mejora por sí solo la resolución en frecuencia rea. 
 
